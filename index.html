@@ -36,11 +36,13 @@
   --porcelain:#E9E8E2; --paper:#F4F3EF;
   --oxblood:#6E1F26; --navy:#1E3050;
   --chrome:#8E9599; --brass:#B4924E; --ink:#141A17;
+  --gold-soft:#D9B777; --gold-deep:#A77C35; --forest:#0C1714;
+  --panel:rgba(255,255,255,.04); --shadow:0 18px 60px rgba(10,15,13,.18);
   --rail:14px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);
+body{margin:0;background:radial-gradient(circle at top, rgba(217,183,119,.08), transparent 30%), var(--paper);color:var(--ink);
   font:400 17px/1.6 'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 h1,h2{font-family:'Bodoni Moda',Georgia,serif;font-weight:700;margin:0;line-height:1.04}
 a{color:inherit}
@@ -89,14 +91,16 @@ a{color:inherit}
 .status{display:inline-flex;align-items:center;gap:.55rem;margin-top:.7rem;font-size:.95rem}
 .dot{width:9px;height:9px;border-radius:50%;background:var(--chrome)}
 .dot.on{background:#5FBF7F;box-shadow:0 0 0 4px rgba(95,191,127,.2)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
+.hero-meta span{display:inline-flex;align-items:center;padding:.5rem .8rem;border:1px solid rgba(233,232,226,.2);background:rgba(9,18,16,.28);border-radius:999px;font-size:.77rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,232,226,.82)}
 .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.7rem}
-.btn{display:inline-block;padding:.95rem 1.7rem;border-radius:2px;
-  font:500 1rem/1 'Archivo',sans-serif;text-decoration:none;border:1px solid transparent;
-  transition:background .15s ease,transform .12s ease}
+.btn{display:inline-block;padding:1rem 1.8rem;border-radius:999px;
+  font:600 .96rem/1 'Archivo',sans-serif;text-decoration:none;border:1px solid transparent;
+  transition:all .15s ease,transform .12s ease;box-shadow:0 12px 28px rgba(0,0,0,.15)}
 .btn:active{transform:translateY(1px)}
-.btn-solid{background:var(--brass);color:var(--pitch)}
-.btn-solid:hover{background:#c9a55d}
-.btn-line{border-color:rgba(233,232,226,.45);color:var(--porcelain)}
+.btn-solid{background:linear-gradient(135deg,var(--gold-soft),var(--brass));color:var(--pitch);box-shadow:0 14px 30px rgba(180,146,78,.35)}
+.btn-solid:hover{background:linear-gradient(135deg,#e4c887,#bf8d3d)}
+.btn-line{border-color:rgba(233,232,226,.45);color:var(--porcelain);background:rgba(233,232,226,.02)}
 .btn-line:hover{background:rgba(233,232,226,.1)}
 
 section{padding:4.5rem 0}
@@ -125,7 +129,7 @@ section{padding:4.5rem 0}
 .ba-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
 
 /* ================= price board ================= */
-.board{background:var(--porcelain);padding:2.5rem 1.6rem;border-top:3px solid var(--oxblood)}
+.board{background:linear-gradient(180deg,#f4f2ee,#efeee9);padding:2.5rem 1.6rem;border-top:3px solid var(--oxblood);box-shadow:var(--shadow);border-radius:0 0 18px 18px}
 .prices{list-style:none;margin:0;padding:0;columns:1;max-width:640px}
 @media(min-width:760px){.prices{columns:2;column-gap:3.5rem;max-width:none}}
 .prices li{display:flex;align-items:baseline;gap:.6rem;padding:.72rem 0;break-inside:avoid}
@@ -159,8 +163,8 @@ section{padding:4.5rem 0}
   scrollbar-width:none}
 .rail::-webkit-scrollbar{display:none}
 .card{flex:0 0 min(360px,82%);scroll-snap-align:start;
-  background:rgba(233,232,226,.06);border:1px solid rgba(233,232,226,.16);
-  border-radius:2px;padding:1.6rem}
+  background:linear-gradient(180deg,rgba(22,34,29,.7),rgba(18,24,21,.92));border:1px solid rgba(233,232,226,.16);
+  border-radius:16px;padding:1.6rem;box-shadow:0 18px 45px rgba(0,0,0,.18)}
 .card .s{color:var(--brass);letter-spacing:.1em;font-size:.9rem}
 .card p{margin:.8rem 0 1.1rem;color:rgba(233,232,226,.9)}
 .card .who{font-size:.88rem;color:rgba(233,232,226,.55)}
@@ -225,6 +229,11 @@ footer a{color:var(--porcelain)}
     <p class="tagline rise d3">Fades, beard work and precision trims in the heart of Whitechapel. Omar has built a loyal client base with consistent results and a relaxed, professional vibe.</p>
     <p class="rated rise d4"><span class="stars" aria-hidden="true">★★★★★</span> 4.9 from 36 Google reviews</p>
     <p class="status rise d4"><span class="dot" id="dot"></span><span id="statusText">Checking opening hours…</span></p>
+    <div class="hero-meta rise d5">
+      <span>16 years experience</span>
+      <span>4.9 Google rating</span>
+      <span>Whitechapel South</span>
+    </div>
     <div class="actions rise d5">
       <a class="btn btn-solid" href="https://wa.me/447934681246?text=Hi%20Omar%2C%20I%27d%20like%20to%20book%20a%20cut">Book on WhatsApp</a>
       <a class="btn btn-line" href="tel:+447934681246">Call 07934 681246</a>
