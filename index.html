@@ -25,8 +25,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Omellyzcutz Whitechapel South — Barbers in London</title>
-<meta name="description" content="Omellyzcutz Whitechapel South is a London barbershop on Cavell Street with 4.9 stars, quality fades, trims and beard work. Book on WhatsApp.">
+<title>Omellyzcutz Whitechapel South — Premium Barbers, London</title>
+<meta name="description" content="Omellyzcutz Whitechapel South is a premium London barbershop on Cavell Street with 4.9 stars, fades, beard work and precision trims. Book on WhatsApp.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700&display=swap" rel="stylesheet">
@@ -127,6 +127,19 @@ section{padding:4.5rem 0}
   background:rgba(18,33,27,.75);color:var(--porcelain);pointer-events:none}
 .ba-tag.l{left:1rem}.ba-tag.r{right:1rem}
 .ba-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+
+/* ================= booking form ================= */
+.service-list{list-style:none;padding:0;margin:1.4rem 0 0;display:grid;gap:.7rem;color:rgba(233,232,226,.88)}
+.service-list li{position:relative;padding-left:1.4rem}
+.service-list li:before{content:'•';position:absolute;left:0;color:var(--brass)}
+.booking-form{display:grid;gap:1rem;background:rgba(255,255,255,.03);border:1px solid rgba(233,232,226,.14);padding:1.4rem;border-radius:18px;box-shadow:var(--shadow)}
+.booking-form label{display:grid;gap:.45rem;font-size:.92rem;color:rgba(233,232,226,.8)}
+.booking-form input,.booking-form select,.booking-form textarea{width:100%;padding:.88rem 1rem;border-radius:12px;border:1px solid rgba(233,232,226,.18);background:rgba(14,22,20,.42);color:var(--porcelain);font:inherit}
+.booking-form input::placeholder,.booking-form textarea::placeholder{color:rgba(233,232,226,.45)}
+.booking-form textarea{resize:vertical;min-height:110px}
+.two-col{display:grid;gap:1rem}
+@media(min-width:640px){.two-col{grid-template-columns:1fr 1fr}}
+.wide{width:100%;justify-content:center;border:none;cursor:pointer}
 
 /* ================= price board ================= */
 .board{background:linear-gradient(180deg,#f4f2ee,#efeee9);padding:2.5rem 1.6rem;border-top:3px solid var(--oxblood);box-shadow:var(--shadow);border-radius:0 0 18px 18px}
@@ -241,6 +254,58 @@ footer a{color:var(--porcelain)}
   </div>
 </div>
 
+<!-- ===================== BOOKING ===================== -->
+<section id="booking" class="dark">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <h2 class="sec-head">Book your cut</h2>
+        <p class="sec-sub">Quick request, no fuss. Drop your preferred service and time and Omar will confirm the slot by WhatsApp.</p>
+        <ul class="service-list">
+          <li>Skin fade and taper fades</li>
+          <li>Scissor cuts and textured finishes</li>
+          <li>Beard trims, shaping and line-ups</li>
+          <li>Kids cuts and neat home trims</li>
+        </ul>
+      </div>
+      <form id="bookingForm" class="booking-form">
+        <label>
+          Full name
+          <input type="text" name="name" placeholder="Your name" required>
+        </label>
+        <label>
+          Service
+          <select name="service" required>
+            <option value="">Choose a service</option>
+            <option>Skin fade</option>
+            <option>Classic cut &amp; style</option>
+            <option>Beard trim &amp; line-up</option>
+            <option>Cut + beard</option>
+            <option>Buzz cut</option>
+            <option>Hot towel shave</option>
+            <option>Kids cut</option>
+          </select>
+        </label>
+        <div class="two-col">
+          <label>
+            Preferred day
+            <input type="text" name="day" placeholder="e.g. Saturday">
+          </label>
+          <label>
+            Preferred time
+            <input type="text" name="time" placeholder="e.g. 2:30pm">
+          </label>
+        </div>
+        <label>
+          Message
+          <textarea name="message" rows="4" placeholder="Tell Omar a bit about the cut you want"></textarea>
+        </label>
+        <button type="submit" class="btn btn-solid wide">Send booking request</button>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== BEFORE / AFTER ===================== -->
 <section id="difference" class="dark">
   <div class="wrap">
@@ -271,6 +336,22 @@ footer a{color:var(--porcelain)}
       <button class="shot" style="--img:url('photos/cut-04.jpg')" data-full="photos/cut-04.jpg" aria-label="Enlarge cut 4"></button>
       <button class="shot" style="--img:url('photos/cut-05.jpg')" data-full="photos/cut-05.jpg" aria-label="Enlarge cut 5"></button>
       <button class="shot" style="--img:url('photos/cut-06.jpg')" data-full="photos/cut-06.jpg" aria-label="Enlarge cut 6"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HAIR CUTS ===================== -->
+<section id="services">
+  <div class="wrap">
+    <h2 class="sec-head">Haircuts Omar does best</h2>
+    <p class="sec-sub">Whether it’s a clean fade, beard work or a full refresh, these are the cuts that keep his clients coming back.</p>
+    <div class="shots">
+      <button class="shot tall" style="--img:url('photos/cut-01.jpg')" data-full="photos/cut-01.jpg" aria-label="Open skin fade example"></button>
+      <button class="shot" style="--img:url('photos/cut-02.jpg')" data-full="photos/cut-02.jpg" aria-label="Open classic cut example"></button>
+      <button class="shot" style="--img:url('photos/cut-03.jpg')" data-full="photos/cut-03.jpg" aria-label="Open beard work example"></button>
+      <button class="shot" style="--img:url('photos/cut-04.jpg')" data-full="photos/cut-04.jpg" aria-label="Open texture cut example"></button>
+      <button class="shot" style="--img:url('photos/cut-05.jpg')" data-full="photos/cut-05.jpg" aria-label="Open taper fade example"></button>
+      <button class="shot" style="--img:url('photos/cut-06.jpg')" data-full="photos/cut-06.jpg" aria-label="Open beard and fade example"></button>
     </div>
   </div>
 </section>
@@ -461,6 +542,31 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
   document.getElementById('lbClose').addEventListener('click', close);
   box.addEventListener('click', e => { if (e.target === box) close(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+
+/* ---------- booking form: sends a WhatsApp request with the chosen details ---------- */
+(function () {
+  const form = document.getElementById('bookingForm');
+  if (!form) return;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const name = (data.get('name') || 'Client').toString().trim();
+    const service = (data.get('service') || 'General cut').toString().trim();
+    const day = (data.get('day') || 'No preference').toString().trim();
+    const time = (data.get('time') || 'No preference').toString().trim();
+    const message = (data.get('message') || '').toString().trim();
+    const text = encodeURIComponent(
+      'Hi Omar, I would like to book a cut.\n\n' +
+      'Name: ' + name + '\n' +
+      'Service: ' + service + '\n' +
+      'Preferred day: ' + day + '\n' +
+      'Preferred time: ' + time + '\n' +
+      (message ? 'Message: ' + message : '')
+    );
+    window.open('https://wa.me/447934681246?text=' + text, '_blank');
+    form.reset();
+  });
 })();
 </script>
 

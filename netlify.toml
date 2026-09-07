@@ -1,0 +1,9 @@
+[build]
+  publish = "."
+  command = "echo 'Static site ready'"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
