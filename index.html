@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<!--
+  ==========================================================================
+  OMELLYZCUTZ — Whitechapel. One-page site, v2 (interactive).
+  --------------------------------------------------------------------------
+  BEFORE SENDING TO OMAR, DO THESE THREE THINGS:
+
+  1. PRICES — search "EDIT PRICES". Placeholder rates. Get his real list.
+  2. INSTAGRAM — search "INSTAGRAM". Add his handle or delete the links.
+  3. REVIEWS — search "EDIT REVIEWS". I've written short summaries of what
+     his Google reviews say. Open his listing and paste the real wording in.
+
+  PHOTOS — make a folder called "photos" next to this file:
+      photos/hero.jpg          wide shot of the shop interior
+      photos/before.jpg        a client BEFORE the cut
+      photos/after.jpg         SAME client, SAME angle, after
+      photos/cut-01.jpg … cut-06.jpg    his best work
+      photos/omar.jpg          portrait of him
+  The before/after pair is the most persuasive thing on the page. Ask him to
+  shoot one this week: same spot, same distance, phone on a shelf.
+  Striped placeholders show until the photos exist. Nothing breaks.
+  ==========================================================================
+-->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omellyzcutz — barbers in Whitechapel, E1</title>
+<meta name="description" content="Fades, beard work and precision trims on Cavell Street, Whitechapel. 4.9 stars. Book ahead on WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pitch:#12211B; --pitch-deep:#0E1A15;
+  --porcelain:#E9E8E2; --paper:#F4F3EF;
+  --oxblood:#6E1F26; --navy:#1E3050;
+  --chrome:#8E9599; --brass:#B4924E; --ink:#141A17;
+  --rail:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 17px/1.6 'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2{font-family:'Bodoni Moda',Georgia,serif;font-weight:700;margin:0;line-height:1.04}
+a{color:inherit}
+.wrap{width:min(1100px,100% - 2.5rem);margin-inline:auto}
+:focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+
+/* ---- the pole: the one loud element ---- */
+.pole{position:absolute;left:0;top:0;bottom:0;width:var(--rail);
+  background:repeating-linear-gradient(45deg,
+    var(--oxblood) 0 10px,var(--porcelain) 10px 20px,
+    var(--navy) 20px 30px,var(--porcelain) 30px 40px);
+  background-size:auto 56.57px;animation:turn 3.4s linear infinite}
+@keyframes turn{to{background-position:0 -56.57px}}
+
+/* ---- one orchestrated load sequence, nothing else auto-moves ---- */
+.rise{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards}
+.rise:nth-child(1){animation-delay:.05s}
+.d2{animation-delay:.18s}.d3{animation-delay:.3s}.d4{animation-delay:.42s}.d5{animation-delay:.54s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .pole{animation:none}
+  .rise{opacity:1;transform:none;animation:none}
+  html{scroll-behavior:auto}
+}
+
+.top{background:var(--pitch);color:var(--porcelain);border-bottom:1px solid rgba(233,232,226,.14)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0}
+.mark{font-family:'Bodoni Moda',serif;font-weight:700;font-size:1.15rem;text-decoration:none}
+.top nav{display:none;gap:1.6rem;font-size:.95rem}
+.top nav a{text-decoration:none;opacity:.85}
+.top nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
+@media(min-width:820px){.top{position:sticky;top:0;z-index:40}.top nav{display:flex}}
+
+.hero{position:relative;background:var(--pitch);color:var(--porcelain);overflow:hidden}
+.hero-photo{position:absolute;inset:0;background-image:url('photos/hero.jpg');
+  background-size:cover;background-position:center;opacity:.42;filter:grayscale(.35) contrast(1.05)}
+.hero-veil{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(18,33,27,.55),rgba(18,33,27,.92) 88%)}
+.hero .wrap{position:relative;padding:5rem 0 3.5rem;padding-left:calc(1.25rem + var(--rail))}
+.hero h1{font-size:clamp(2.9rem,12vw,7rem);letter-spacing:-.015em}
+.hero h1 .l2{display:block;color:var(--brass)}
+.place{margin:1.1rem 0 0;font-size:1.05rem;color:rgba(233,232,226,.7)}
+.tagline{max-width:36ch;margin:1rem 0 0;font-size:1.1rem;color:rgba(233,232,226,.85)}
+.rated{display:flex;align-items:center;gap:.6rem;margin-top:1.6rem;font-size:.95rem;color:rgba(233,232,226,.8)}
+.stars{color:var(--brass);letter-spacing:.12em}
+.status{display:inline-flex;align-items:center;gap:.55rem;margin-top:.7rem;font-size:.95rem}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--chrome)}
+.dot.on{background:#5FBF7F;box-shadow:0 0 0 4px rgba(95,191,127,.2)}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.7rem}
+.btn{display:inline-block;padding:.95rem 1.7rem;border-radius:2px;
+  font:500 1rem/1 'Archivo',sans-serif;text-decoration:none;border:1px solid transparent;
+  transition:background .15s ease,transform .12s ease}
+.btn:active{transform:translateY(1px)}
+.btn-solid{background:var(--brass);color:var(--pitch)}
+.btn-solid:hover{background:#c9a55d}
+.btn-line{border-color:rgba(233,232,226,.45);color:var(--porcelain)}
+.btn-line:hover{background:rgba(233,232,226,.1)}
+
+section{padding:4.5rem 0}
+.sec-head{font-size:clamp(1.9rem,5vw,2.8rem);margin-bottom:.6rem}
+.sec-sub{margin:0 0 2rem;color:#5C665F;max-width:52ch}
+.dark{background:var(--pitch);color:var(--porcelain)}
+.dark .sec-sub{color:rgba(233,232,226,.65)}
+
+/* ================= before / after drag ================= */
+.ba{position:relative;max-width:760px;margin-inline:auto;aspect-ratio:4/5;
+  border-radius:2px;overflow:hidden;touch-action:pan-y;user-select:none;cursor:ew-resize;
+  background:repeating-linear-gradient(45deg,#25382F 0 12px,#1B2F27 12px 24px)}
+@media(min-width:700px){.ba{aspect-ratio:16/10}}
+.ba-layer{position:absolute;inset:0;background-size:cover;background-position:center}
+.ba-before{background-image:url('photos/before.jpg')}
+.ba-after{background-image:url('photos/after.jpg');clip-path:inset(0 0 0 var(--x,50%))}
+.ba-handle{position:absolute;top:0;bottom:0;left:var(--x,50%);width:3px;background:var(--porcelain);
+  box-shadow:0 0 14px rgba(0,0,0,.5);pointer-events:none}
+.ba-grip{position:absolute;top:50%;left:var(--x,50%);translate:-50% -50%;
+  width:52px;height:52px;border-radius:50%;background:var(--porcelain);color:var(--pitch);
+  display:grid;place-items:center;font-size:1.1rem;pointer-events:none;
+  box-shadow:0 4px 18px rgba(0,0,0,.45)}
+.ba-tag{position:absolute;bottom:1rem;padding:.4rem .8rem;border-radius:2px;font-size:.85rem;
+  background:rgba(18,33,27,.75);color:var(--porcelain);pointer-events:none}
+.ba-tag.l{left:1rem}.ba-tag.r{right:1rem}
+.ba-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+
+/* ================= price board ================= */
+.board{background:var(--porcelain);padding:2.5rem 1.6rem;border-top:3px solid var(--oxblood)}
+.prices{list-style:none;margin:0;padding:0;columns:1;max-width:640px}
+@media(min-width:760px){.prices{columns:2;column-gap:3.5rem;max-width:none}}
+.prices li{display:flex;align-items:baseline;gap:.6rem;padding:.72rem 0;break-inside:avoid}
+.prices .name{font-weight:500}
+.prices .sub{display:block;font-size:.85rem;color:#5C665F;font-weight:400}
+.prices .lead{flex:1;border-bottom:1px dotted #A9AFA9;transform:translateY(-4px)}
+.prices .cost{font-family:'Bodoni Moda',serif;font-weight:700;font-size:1.2rem}
+.board-note{margin:2rem 0 0;font-size:.92rem;color:#5C665F;max-width:60ch}
+
+/* ================= gallery + lightbox ================= */
+.shots{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
+@media(min-width:760px){.shots{grid-template-columns:repeat(3,1fr);gap:.9rem}}
+.shot{margin:0;padding:0;border:0;aspect-ratio:1/1;border-radius:2px;cursor:zoom-in;
+  background-image:var(--img),repeating-linear-gradient(45deg,#25382F 0 12px,#1B2F27 12px 24px);
+  background-size:cover,auto;background-position:center;
+  transition:filter .18s ease}
+.shot:hover{filter:brightness(1.12)}
+.shot.tall{grid-row:span 2;aspect-ratio:1/2}
+@media(max-width:759px){.shot.tall{grid-row:auto;aspect-ratio:1/1}}
+.lightbox{position:fixed;inset:0;z-index:80;display:none;place-items:center;
+  background:rgba(10,18,14,.94);padding:1.5rem}
+.lightbox[open]{display:grid}
+.lightbox .frame{width:min(900px,100%);aspect-ratio:1/1;background-size:contain;
+  background-position:center;background-repeat:no-repeat}
+.lightbox .close{position:absolute;top:1rem;right:1rem;background:none;border:0;
+  color:var(--porcelain);font-size:2rem;cursor:pointer;line-height:1;padding:.5rem}
+
+/* ================= reviews rail ================= */
+.rail{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding-bottom:1rem;margin:0 -1.25rem;padding-inline:1.25rem;
+  scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.card{flex:0 0 min(360px,82%);scroll-snap-align:start;
+  background:rgba(233,232,226,.06);border:1px solid rgba(233,232,226,.16);
+  border-radius:2px;padding:1.6rem}
+.card .s{color:var(--brass);letter-spacing:.1em;font-size:.9rem}
+.card p{margin:.8rem 0 1.1rem;color:rgba(233,232,226,.9)}
+.card .who{font-size:.88rem;color:rgba(233,232,226,.55)}
+.rail-hint{margin:.6rem 0 0;font-size:.85rem;color:rgba(233,232,226,.45)}
+
+/* ================= about ================= */
+.about-grid{display:grid;gap:2.5rem}
+@media(min-width:820px){.about-grid{grid-template-columns:.9fr 1.1fr;align-items:center;gap:4rem}}
+.portrait{aspect-ratio:4/5;border-radius:2px;
+  background-image:url('photos/omar.jpg'),repeating-linear-gradient(45deg,#25382F 0 12px,#1B2F27 12px 24px);
+  background-size:cover,auto;background-position:center}
+.about p{max-width:60ch}
+
+/* ================= visit ================= */
+.visit-grid{display:grid;gap:2.5rem}
+@media(min-width:820px){.visit-grid{grid-template-columns:1fr 1fr;gap:3.5rem}}
+.hours{width:100%;border-collapse:collapse;max-width:420px}
+.hours th{text-align:left;font-weight:400;padding:.62rem 0;color:rgba(233,232,226,.62)}
+.hours td{text-align:right;padding:.62rem 0;font-variant-numeric:tabular-nums}
+.hours tr{border-bottom:1px solid rgba(233,232,226,.15)}
+.hours tr.today th,.hours tr.today td{font-weight:600;color:var(--porcelain)}
+.addr{margin:2rem 0 0;line-height:1.75;color:rgba(233,232,226,.85)}
+.addr a{color:var(--brass)}
+.map{width:100%;height:340px;border:0;border-radius:2px;filter:grayscale(.3)}
+.tube{margin:1rem 0 0;font-size:.93rem;color:rgba(233,232,226,.6)}
+
+footer{background:var(--pitch-deep);color:rgba(233,232,226,.72);padding:3rem 0 5.5rem;font-size:.93rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;align-items:center}
+footer a{color:var(--porcelain)}
+@media(min-width:820px){footer{padding-bottom:3rem}}
+
+.callbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;
+  border-top:1px solid rgba(0,0,0,.15)}
+.callbar a{flex:1;text-align:center;padding:1.05rem .5rem;text-decoration:none;
+  font:500 1rem/1 'Archivo',sans-serif}
+.callbar .c1{background:var(--brass);color:var(--pitch)}
+.callbar .c2{background:var(--pitch);color:var(--porcelain)}
+@media(min-width:820px){.callbar{display:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="#top">Omellyzcutz</a>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#prices">Prices</a>
+      <a href="#said">Reviews</a>
+      <a href="#visit">Find us</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="pole" aria-hidden="true"></div>
+  <div class="hero-photo" aria-hidden="true"></div>
+  <div class="hero-veil" aria-hidden="true"></div>
+  <div class="wrap">
+    <h1 class="rise">Omellyz<span class="l2">cutz</span></h1>
+    <p class="place rise d2">Cavell Street, Whitechapel</p>
+    <p class="tagline rise d3">Fades, beard work and precision trims. Message Omar to book — the chair fills up fast on weekends.</p>
+    <p class="rated rise d4"><span class="stars" aria-hidden="true">★★★★★</span> 4.9 from 36 Google reviews</p>
+    <p class="status rise d4"><span class="dot" id="dot"></span><span id="statusText">Checking opening hours…</span></p>
+    <div class="actions rise d5">
+      <a class="btn btn-solid" href="https://wa.me/447934681246?text=Hi%20Omar%2C%20I%27d%20like%20to%20book%20a%20cut">Book on WhatsApp</a>
+      <a class="btn btn-line" href="tel:+447934681246">Call 07934 681246</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BEFORE / AFTER ===================== -->
+<section id="difference" class="dark">
+  <div class="wrap">
+    <h2 class="sec-head">Drag to see the difference</h2>
+    <p class="sec-sub">Same person, same chair, forty minutes apart.</p>
+    <div class="ba" id="ba">
+      <div class="ba-layer ba-before" role="img" aria-label="Before the cut"></div>
+      <div class="ba-layer ba-after" role="img" aria-label="After the cut"></div>
+      <div class="ba-handle" aria-hidden="true"></div>
+      <div class="ba-grip" aria-hidden="true">⟺</div>
+      <span class="ba-tag l">Before</span>
+      <span class="ba-tag r">After</span>
+      <input class="ba-input" type="range" min="0" max="100" value="50" id="baInput"
+             aria-label="Reveal the finished cut">
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GALLERY ===================== -->
+<section id="work">
+  <div class="wrap">
+    <h2 class="sec-head">Recent work</h2>
+    <p class="sec-sub">Tap any cut to see it full size.</p>
+    <div class="shots">
+      <button class="shot tall" style="--img:url('photos/cut-01.jpg')" data-full="photos/cut-01.jpg" aria-label="Enlarge cut 1"></button>
+      <button class="shot" style="--img:url('photos/cut-02.jpg')" data-full="photos/cut-02.jpg" aria-label="Enlarge cut 2"></button>
+      <button class="shot" style="--img:url('photos/cut-03.jpg')" data-full="photos/cut-03.jpg" aria-label="Enlarge cut 3"></button>
+      <button class="shot" style="--img:url('photos/cut-04.jpg')" data-full="photos/cut-04.jpg" aria-label="Enlarge cut 4"></button>
+      <button class="shot" style="--img:url('photos/cut-05.jpg')" data-full="photos/cut-05.jpg" aria-label="Enlarge cut 5"></button>
+      <button class="shot" style="--img:url('photos/cut-06.jpg')" data-full="photos/cut-06.jpg" aria-label="Enlarge cut 6"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRICES ===================== -->
+<section id="prices">
+  <div class="wrap">
+    <h2 class="sec-head">Cuts &amp; prices</h2>
+    <div class="board">
+      <!-- EDIT PRICES — placeholder rates, confirm every one with Omar -->
+      <ul class="prices">
+        <li><span class="name">Skin fade<span class="sub">Low, mid or high</span></span><span class="lead"></span><span class="cost">£20</span></li>
+        <li><span class="name">Cut and style<span class="sub">Scissor or clipper</span></span><span class="lead"></span><span class="cost">£18</span></li>
+        <li><span class="name">Beard trim and line-up<span class="sub">Razor finish</span></span><span class="lead"></span><span class="cost">£12</span></li>
+        <li><span class="name">Cut and beard<span class="sub">The full sit-down</span></span><span class="lead"></span><span class="cost">£28</span></li>
+        <li><span class="name">Hot towel shave</span><span class="lead"></span><span class="cost">£22</span></li>
+        <li><span class="name">Buzz cut<span class="sub">One guard all over</span></span><span class="lead"></span><span class="cost">£12</span></li>
+        <li><span class="name">Kids, under 12</span><span class="lead"></span><span class="cost">£15</span></li>
+        <li><span class="name">Hair wash and finish</span><span class="lead"></span><span class="cost">£5</span></li>
+      </ul>
+      <p class="board-note">Book ahead if you can. Walk-ins get taken when there's a gap, but on a busy Saturday that can mean a long wait — a quick WhatsApp saves you standing around.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REVIEWS ===================== -->
+<section id="said" class="dark">
+  <div class="wrap">
+    <h2 class="sec-head">What people say</h2>
+    <p class="sec-sub">4.9 out of 5, across 36 reviews on Google.</p>
+    <!-- EDIT REVIEWS — these are summaries. Paste the real wording from his
+         Google listing, and use the reviewers' real first names. -->
+    <div class="rail">
+      <div class="card">
+        <div class="s" aria-hidden="true">★★★★★</div>
+        <p>Best haircut service in East London. Clean shop, good lighting, and Omar takes his time over the trim.</p>
+        <div class="who">Google review</div>
+      </div>
+      <div class="card">
+        <div class="s" aria-hidden="true">★★★★★</div>
+        <p>On time, focused on the cut, and easy to talk to the whole way through. Going back.</p>
+        <div class="who">Google review</div>
+      </div>
+      <div class="card">
+        <div class="s" aria-hidden="true">★★★★★</div>
+        <p>Welcoming from the moment you walk in. Everyone in there is sound.</p>
+        <div class="who">Google review</div>
+      </div>
+      <div class="card">
+        <div class="s" aria-hidden="true">★★★★★</div>
+        <p>Comes through every single time. Wouldn't go anywhere else for a trim now.</p>
+        <div class="who">Google review</div>
+      </div>
+    </div>
+    <p class="rail-hint">Swipe for more</p>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="portrait" role="img" aria-label="Omar at work in the shop"></div>
+    <div class="about">
+      <h2 class="sec-head">One barber, no rushing</h2>
+      <p>Omar has built Omellyzcutz on Cavell Street into one of the better-rated shops in East London. Bright, clean, and the sort of place where the trim gets the time it needs rather than the time the queue wants.</p>
+      <p>Bring a picture if you have one. If it won't sit right with your hair, you'll be told before the clippers come out, not after.</p>
+      <a class="btn btn-solid" href="https://wa.me/447934681246?text=Hi%20Omar%2C%20I%27d%20like%20to%20book%20a%20cut" style="margin-top:1.5rem">Book a slot</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VISIT ===================== -->
+<section id="visit" class="dark">
+  <div class="wrap visit-grid">
+    <div>
+      <h2 class="sec-head">Find us</h2>
+      <table class="hours">
+        <tbody>
+          <tr data-day="1"><th scope="row">Monday</th><td>Closed</td></tr>
+          <tr data-day="2"><th scope="row">Tuesday</th><td>10:00 – 20:00</td></tr>
+          <tr data-day="3"><th scope="row">Wednesday</th><td>10:00 – 20:00</td></tr>
+          <tr data-day="4"><th scope="row">Thursday</th><td>10:00 – 20:00</td></tr>
+          <tr data-day="5"><th scope="row">Friday</th><td>10:00 – 20:00</td></tr>
+          <tr data-day="6"><th scope="row">Saturday</th><td>10:00 – 20:00</td></tr>
+          <tr data-day="0"><th scope="row">Sunday</th><td>11:00 – 18:00</td></tr>
+        </tbody>
+      </table>
+      <p class="addr">
+        8 Cavell Street<br>Whitechapel, London E1 2HP<br>
+        <a href="tel:+447934681246">07934 681246</a>
+      </p>
+      <p class="tube">Three minutes from Whitechapel station, just off New Road.</p>
+    </div>
+    <div>
+      <iframe class="map" loading="lazy" title="Map showing Omellyzcutz on Cavell Street"
+        src="https://maps.google.com/maps?q=8%20Cavell%20Street%20London%20E1%202HP&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Omellyzcutz — 8 Cavell Street, London E1 2HP</span>
+    <!-- INSTAGRAM: real handle, or delete this line -->
+    <span><a href="https://instagram.com/">Instagram</a></span>
+    <span><a href="tel:+447934681246">07934 681246</a></span>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="c1" href="https://wa.me/447934681246?text=Hi%20Omar%2C%20I%27d%20like%20to%20book%20a%20cut">Book on WhatsApp</a>
+  <a class="c2" href="#visit">Directions</a>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="close" id="lbClose" aria-label="Close">×</button>
+  <div class="frame" id="lbFrame"></div>
+</div>
+
+<script>
+/* ---------- opening hours: 24h decimals, null = closed, 0 = Sunday ---------- */
+const openingHours = [[11,18], null, [10,20], [10,20], [10,20], [10,20], [10,20]];
+const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+(function () {
+  const now = new Date(), day = now.getDay();
+  const time = now.getHours() + now.getMinutes() / 60;
+  const today = openingHours[day];
+  const dot = document.getElementById('dot'), text = document.getElementById('statusText');
+  const fmt = h => String(Math.floor(h)).padStart(2,'0') + ':' + String(Math.round((h % 1) * 60)).padStart(2,'0');
+
+  if (today && time >= today[0] && time < today[1]) {
+    dot.classList.add('on');
+    const left = today[1] - time;
+    text.textContent = left <= 1
+      ? 'Open — last cuts before ' + fmt(today[1])
+      : 'Open now — closes at ' + fmt(today[1]);
+  } else if (today && time < today[0]) {
+    text.textContent = 'Closed — opens today at ' + fmt(today[0]);
+  } else {
+    let next = null;
+    for (let i = 1; i <= 7; i++) {
+      const d = (day + i) % 7;
+      if (openingHours[d]) { next = { d, h: openingHours[d][0], i }; break; }
+    }
+    text.textContent = next
+      ? 'Closed — opens ' + (next.i === 1 ? 'tomorrow' : dayNames[next.d]) + ' at ' + fmt(next.h)
+      : 'Message to check opening times';
+  }
+  const row = document.querySelector('.hours tr[data-day="' + day + '"]');
+  if (row) row.classList.add('today');
+})();
+
+/* ---------- before / after slider ---------- */
+(function () {
+  const ba = document.getElementById('ba'), input = document.getElementById('baInput');
+  const set = v => ba.style.setProperty('--x', v + '%');
+  input.addEventListener('input', e => set(e.target.value));
+  const drag = e => {
+    const r = ba.getBoundingClientRect();
+    const x = ((e.touches ? e.touches[0].clientX : e.clientX) - r.left) / r.width * 100;
+    const v = Math.max(0, Math.min(100, x));
+    input.value = v; set(v);
+  };
+  let down = false;
+  ba.addEventListener('pointerdown', e => { down = true; drag(e); });
+  window.addEventListener('pointermove', e => { if (down) drag(e); });
+  window.addEventListener('pointerup', () => { down = false; });
+  set(50);
+})();
+
+/* ---------- gallery lightbox ---------- */
+(function () {
+  const box = document.getElementById('lightbox');
+  const frame = document.getElementById('lbFrame');
+  let last = null;
+  const open = src => {
+    frame.style.backgroundImage = "url('" + src + "')";
+    box.setAttribute('open',''); document.body.style.overflow = 'hidden';
+    document.getElementById('lbClose').focus();
+  };
+  const close = () => {
+    box.removeAttribute('open'); document.body.style.overflow = '';
+    if (last) last.focus();
+  };
+  document.querySelectorAll('.shot').forEach(b =>
+    b.addEventListener('click', () => { last = b; open(b.dataset.full); }));
+  document.getElementById('lbClose').addEventListener('click', close);
+  box.addEventListener('click', e => { if (e.target === box) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+</script>
+
+</body>
+</html>
