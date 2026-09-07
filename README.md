@@ -34,4 +34,17 @@ In Netlify, add these environment variables before deploying:
 - `GITHUB_BRANCH`: `main`
 
 The token is used only by Netlify and is never sent to the browser. Each upload is committed to `photos/`, which triggers the normal GitHub-to-Netlify deploy flow.
+
+## Booking approvals
+
+The booking form saves each request under `bookings/` in GitHub. Netlify sends the barber an approval link on WhatsApp; opening that link marks the booking accepted and sends a confirmation to both the customer and barber.
+
+Add these Netlify environment variables for the booking flow:
+
+- `BARBER_WHATSAPP`: barber's number in international format, such as `+447934681246`
+- `TWILIO_ACCOUNT_SID`: Twilio account SID
+- `TWILIO_AUTH_TOKEN`: Twilio auth token
+- `TWILIO_WHATSAPP_FROM`: approved Twilio WhatsApp sender number in international format
+
+The customer must provide a WhatsApp number in international format. Twilio WhatsApp sender approval and messaging rules apply.
 For GitHub Pages, publish the root branch (or use the static site branch) and ensure `.nojekyll` is included.
