@@ -378,17 +378,12 @@ footer a{color:var(--porcelain)}
 </section>
 
 <!-- ===================== HAIR CUTS ===================== -->
-<section id="services">
+<section id="services" class="live-photos dark">
   <div class="wrap">
     <h2 class="sec-head">Haircuts Omar does best</h2>
-    <p class="sec-sub">Whether it’s a clean fade, beard work or a full refresh, these are the cuts that keep his clients coming back.</p>
-    <div class="shots">
-      <button class="shot tall" style="--img:url('photos/cut-01.jpg')" data-full="photos/cut-01.jpg" aria-label="Open skin fade example"></button>
-      <button class="shot" style="--img:url('photos/cut-02.jpg')" data-full="photos/cut-02.jpg" aria-label="Open classic cut example"></button>
-      <button class="shot" style="--img:url('photos/cut-03.jpg')" data-full="photos/cut-03.jpg" aria-label="Open beard work example"></button>
-      <button class="shot" style="--img:url('photos/cut-04.jpg')" data-full="photos/cut-04.jpg" aria-label="Open texture cut example"></button>
-      <button class="shot" style="--img:url('photos/cut-05.jpg')" data-full="photos/cut-05.jpg" aria-label="Open taper fade example"></button>
-      <button class="shot" style="--img:url('photos/cut-06.jpg')" data-full="photos/cut-06.jpg" aria-label="Open beard and fade example"></button>
+    <p class="sec-sub">Clean fades, beard work and full refreshes, all moving through one live reel.</p>
+    <div class="live-strip" aria-live="polite">
+      <div class="live-track" id="haircutsTrack"></div>
     </div>
   </div>
 </section>
@@ -615,10 +610,12 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
 
 /* ---------- live photo reel from GitHub repo ---------- */
 (function () {
-  const reel = document.getElementById('livePhotosTrack');
+  const reels = ['livePhotosTrack', 'haircutsTrack']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
   const uploadInput = document.getElementById('imageUpload');
   const uploadStatus = document.getElementById('uploadStatus');
-  if (!reel) return;
+  if (!reels.length) return;
   let repoImages = [];
 
   const repoOwner = 'kshitijsharma104-eng';
@@ -638,13 +635,17 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
 
   const renderFeed = (items) => {
     if (!items.length) {
-      reel.innerHTML = '<div class="live-slide" style="background:linear-gradient(135deg,#1d2a25,#0f1714);display:grid;place-items:center;color:#e9e8e2;">No new photos yet</div>';
+      reels.forEach(reel => {
+        reel.innerHTML = '<div class="live-slide" style="background:linear-gradient(135deg,#1d2a25,#0f1714);display:grid;place-items:center;color:#e9e8e2;">No new photos yet</div>';
+      });
       return;
     }
 
     const trackItems = [...items, ...items];
-    reel.innerHTML = '';
-    trackItems.forEach(item => reel.appendChild(buildSlide(item.url, item.name)));
+    reels.forEach(reel => {
+      reel.innerHTML = '';
+      trackItems.forEach(item => reel.appendChild(buildSlide(item.url, item.name)));
+    });
   };
 
   const syncReel = () => {
@@ -689,7 +690,6 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
       syncReel();
     } catch (error) {
       repoImages = [];
-      reel.innerHTML = '';
       syncReel();
     }
   };
