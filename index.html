@@ -239,7 +239,7 @@ footer a{color:var(--porcelain)}
   <div class="wrap">
     <a class="mark" href="#top">Omellyzcutz</a>
     <nav>
-      <a href="#work">Work</a>
+      <a href="#live-photos">Work</a>
       <a href="#prices">Prices</a>
       <a href="#said">Reviews</a>
       <a href="#visit">Find us</a>
@@ -352,21 +352,6 @@ footer a{color:var(--porcelain)}
       <input id="imageUpload" type="file" accept="image/*">
       <span class="upload-hint">Uploaded images show up in the reel instantly.</span>
       <span class="upload-status" id="uploadStatus" role="status" aria-live="polite"></span>
-    </div>
-  </div>
-</section>
-
-<section id="work">
-  <div class="wrap">
-    <h2 class="sec-head">Recent work</h2>
-    <p class="sec-sub">Tap any cut to see it full size.</p>
-    <div class="shots" id="galleryGrid">
-      <button class="shot tall" style="--img:url('photos/cut-01.jpg')" data-full="photos/cut-01.jpg" aria-label="Enlarge cut 1"></button>
-      <button class="shot" style="--img:url('photos/cut-02.jpg')" data-full="photos/cut-02.jpg" aria-label="Enlarge cut 2"></button>
-      <button class="shot" style="--img:url('photos/cut-03.jpg')" data-full="photos/cut-03.jpg" aria-label="Enlarge cut 3"></button>
-      <button class="shot" style="--img:url('photos/cut-04.jpg')" data-full="photos/cut-04.jpg" aria-label="Enlarge cut 4"></button>
-      <button class="shot" style="--img:url('photos/cut-05.jpg')" data-full="photos/cut-05.jpg" aria-label="Enlarge cut 5"></button>
-      <button class="shot" style="--img:url('photos/cut-06.jpg')" data-full="photos/cut-06.jpg" aria-label="Enlarge cut 6"></button>
     </div>
   </div>
 </section>
@@ -619,6 +604,7 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
   const repoName = 'omellyzcutz';
   const folder = 'photos';
   const imageExt = /\.(png|jpe?g|webp|gif|avif|bmp)/i;
+  const excludedNames = new Set(['shop-picture.jpg', 'owner.jpg']);
 
   const buildSlide = (url, name) => {
     const slide = document.createElement('div');
@@ -672,7 +658,7 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
       if (!response.ok) throw new Error('GitHub fetch failed');
       const files = await response.json();
       repoImages = Array.isArray(files)
-        ? files.filter(file => file.type === 'file' && imageExt.test(file.name))
+        ? files.filter(file => file.type === 'file' && imageExt.test(file.name) && !excludedNames.has(file.name.toLowerCase()))
         : [];
       const items = repoImages.map(file => ({
         name: file.name,
