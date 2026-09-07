@@ -167,6 +167,7 @@ section{padding:4.5rem 0}
 .upload-box label{margin:0}
 .upload-box input[type="file"]{display:none}
 .upload-hint{font-size:.82rem;color:rgba(233,232,226,.7)}
+.upload-status{flex-basis:100%;min-height:1.3em;font-size:.85rem;color:var(--gold-soft)}
 .shots{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
 @media(min-width:760px){.shots{grid-template-columns:repeat(3,1fr);gap:.9rem}}
 .shot{margin:0;padding:0;border:0;aspect-ratio:1/1;border-radius:2px;cursor:zoom-in;
@@ -350,6 +351,7 @@ footer a{color:var(--porcelain)}
       <label for="imageUpload" class="btn btn-line">Upload new image</label>
       <input id="imageUpload" type="file" accept="image/*">
       <span class="upload-hint">Uploaded images show up in the reel instantly.</span>
+      <span class="upload-status" id="uploadStatus" role="status" aria-live="polite"></span>
     </div>
   </div>
 </section>
@@ -609,17 +611,9 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
 (function () {
   const reel = document.getElementById('livePhotosTrack');
   const uploadInput = document.getElementById('imageUpload');
+  const uploadStatus = document.getElementById('uploadStatus');
   if (!reel) return;
-
-  const storageKey = 'omellyzcutz-uploaded-images';
   let repoImages = [];
-  let uploadedImages = [];
-
-  try {
-    uploadedImages = JSON.parse(localStorage.getItem(storageKey) || '[]');
-  } catch (error) {
-    uploadedImages = [];
-  }
 
   const repoOwner = 'kshitijsharma104-eng';
   const repoName = 'omellyzcutz';
@@ -647,28 +641,28 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
   };
 
   const syncReel = () => {
-    renderFeed([...uploadedImages, ...repoImages]);
-  };
-
-  const saveUploadedImages = () => {
-    localStorage.setItem(storageKey, JSON.stringify(uploadedImages));
-    syncReel();
+    renderFeed(repoImages);
   };
 
   uploadInput && uploadInput.addEventListener('change', async (event) => {
     const file = event.target.files && event.target.files[0];
     if (!file) return;
 
-    const dataUrl = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-
-    uploadedImages.push({ name: file.name, url: dataUrl });
-    saveUploadedImages();
-    event.target.value = '';
+    uploadStatus.textContent = 'Uploading to GitHub…';
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const response = await fetch('/.netlify/functions/upload-image', { method: 'POST', body: formData });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Upload failed');
+      repoImages.unshift(result);
+      syncReel();
+      uploadStatus.textContent = 'Saved to GitHub and added to Recent work.';
+    } catch (error) {
+      uploadStatus.textContent = error.message;
+    } finally {
+      event.target.value = '';
+    }
   });
 
   const loadPhotos = async () => {
