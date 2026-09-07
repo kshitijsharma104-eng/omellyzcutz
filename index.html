@@ -39,6 +39,10 @@
   --gold-soft:#D9B777; --gold-deep:#A77C35; --forest:#0C1714;
   --panel:rgba(255,255,255,.04); --shadow:0 18px 60px rgba(10,15,13,.18);
   --rail:14px;
+  --hero-image:url('photos/hero.jpg');
+  --before-image:url('photos/before.jpg');
+  --after-image:url('photos/after.jpg');
+  --owner-image:url('photos/omar.jpg');
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -77,7 +81,7 @@ a{color:inherit}
 @media(min-width:820px){.top{position:sticky;top:0;z-index:40}.top nav{display:flex}}
 
 .hero{position:relative;background:var(--pitch);color:var(--porcelain);overflow:hidden}
-.hero-photo{position:absolute;inset:0;background-image:url('photos/hero.jpg');
+.hero-photo{position:absolute;inset:0;background-image:var(--hero-image);
   background-size:cover;background-position:center;opacity:.42;filter:grayscale(.35) contrast(1.05)}
 .hero-veil{position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(18,33,27,.55),rgba(18,33,27,.92) 88%)}
@@ -115,8 +119,8 @@ section{padding:4.5rem 0}
   background:repeating-linear-gradient(45deg,#25382F 0 12px,#1B2F27 12px 24px)}
 @media(min-width:700px){.ba{aspect-ratio:16/10}}
 .ba-layer{position:absolute;inset:0;background-size:cover;background-position:center}
-.ba-before{background-image:url('photos/before.jpg')}
-.ba-after{background-image:url('photos/after.jpg');clip-path:inset(0 0 0 var(--x,50%))}
+.ba-before{background-image:var(--before-image)}
+.ba-after{background-image:var(--after-image);clip-path:inset(0 0 0 var(--x,50%))}
 .ba-handle{position:absolute;top:0;bottom:0;left:var(--x,50%);width:3px;background:var(--porcelain);
   box-shadow:0 0 14px rgba(0,0,0,.5);pointer-events:none}
 .ba-grip{position:absolute;top:50%;left:var(--x,50%);translate:-50% -50%;
@@ -153,6 +157,12 @@ section{padding:4.5rem 0}
 .board-note{margin:2rem 0 0;font-size:.92rem;color:#5C665F;max-width:60ch}
 
 /* ================= gallery + lightbox ================= */
+.live-photos{padding-top:0}
+.live-strip{position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(233,232,226,.12);background:rgba(17,30,26,.7);padding:1rem 0}
+.live-track{display:flex;gap:1rem;align-items:center;width:max-content;animation:photo-marquee 32s linear infinite;padding-inline:1rem}
+.live-track:hover{animation-play-state:paused}
+.live-slide{flex:0 0 220px;aspect-ratio:4/5;border-radius:14px;background-size:cover;background-position:center;box-shadow:0 20px 40px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08)}
+@keyframes photo-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .shots{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
 @media(min-width:760px){.shots{grid-template-columns:repeat(3,1fr);gap:.9rem}}
 .shot{margin:0;padding:0;border:0;aspect-ratio:1/1;border-radius:2px;cursor:zoom-in;
@@ -187,7 +197,7 @@ section{padding:4.5rem 0}
 .about-grid{display:grid;gap:2.5rem}
 @media(min-width:820px){.about-grid{grid-template-columns:.9fr 1.1fr;align-items:center;gap:4rem}}
 .portrait{aspect-ratio:4/5;border-radius:2px;
-  background-image:url('photos/omar.jpg'),repeating-linear-gradient(45deg,#25382F 0 12px,#1B2F27 12px 24px);
+  background-image:var(--owner-image),repeating-linear-gradient(45deg,#25382F 0 12px,#1B2F27 12px 24px);
   background-size:cover,auto;background-position:center}
 .about p{max-width:60ch}
 
@@ -325,11 +335,21 @@ footer a{color:var(--porcelain)}
 </section>
 
 <!-- ===================== GALLERY ===================== -->
+<section id="live-photos" class="live-photos dark">
+  <div class="wrap">
+    <h2 class="sec-head">Fresh cuts</h2>
+    <p class="sec-sub">Newest work from the shop. The reel updates automatically whenever new images are added to the repo.</p>
+    <div class="live-strip" aria-live="polite">
+      <div class="live-track" id="livePhotosTrack"></div>
+    </div>
+  </div>
+</section>
+
 <section id="work">
   <div class="wrap">
     <h2 class="sec-head">Recent work</h2>
     <p class="sec-sub">Tap any cut to see it full size.</p>
-    <div class="shots">
+    <div class="shots" id="galleryGrid">
       <button class="shot tall" style="--img:url('photos/cut-01.jpg')" data-full="photos/cut-01.jpg" aria-label="Enlarge cut 1"></button>
       <button class="shot" style="--img:url('photos/cut-02.jpg')" data-full="photos/cut-02.jpg" aria-label="Enlarge cut 2"></button>
       <button class="shot" style="--img:url('photos/cut-03.jpg')" data-full="photos/cut-03.jpg" aria-label="Enlarge cut 3"></button>
@@ -521,6 +541,112 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
   window.addEventListener('pointermove', e => { if (down) drag(e); });
   window.addEventListener('pointerup', () => { down = false; });
   set(50);
+})();
+
+/* ---------- photo manifest: allows real filenames without renaming ---------- */
+(async function () {
+  const defaults = {
+    hero: 'photos/hero.jpg',
+    before: 'photos/before.jpg',
+    after: 'photos/after.jpg',
+    owner: 'photos/omar.jpg',
+    gallery: [
+      'photos/cut-01.jpg',
+      'photos/cut-02.jpg',
+      'photos/cut-03.jpg',
+      'photos/cut-04.jpg',
+      'photos/cut-05.jpg',
+      'photos/cut-06.jpg'
+    ]
+  };
+
+  const toAssetUrl = value => {
+    if (!value) return value;
+    if (value.startsWith('http')) return value;
+    return 'photos/' + encodeURI(value).replace(/%2F/g, '/');
+  };
+
+  const loadPhotoMap = async () => {
+    try {
+      const res = await fetch('photos/manifest.json');
+      if (!res.ok) throw new Error('No photo manifest found');
+      const data = await res.json();
+      return {
+        hero: toAssetUrl(data.hero || defaults.hero.replace(/^photos\//,'')),
+        before: toAssetUrl(data.before || defaults.before.replace(/^photos\//,'')),
+        after: toAssetUrl(data.after || defaults.after.replace(/^photos\//,'')),
+        owner: toAssetUrl(data.owner || defaults.owner.replace(/^photos\//,'')),
+        gallery: (data.gallery || defaults.gallery.map(x => x.replace(/^photos\//,''))).map(toAssetUrl)
+      };
+    } catch (error) {
+      return defaults;
+    }
+  };
+
+  const map = await loadPhotoMap();
+  document.documentElement.style.setProperty('--hero-image', "url('" + map.hero + "')");
+  document.documentElement.style.setProperty('--before-image', "url('" + map.before + "')");
+  document.documentElement.style.setProperty('--after-image', "url('" + map.after + "')");
+  document.documentElement.style.setProperty('--owner-image', "url('" + map.owner + "')");
+
+  document.querySelectorAll('.shot').forEach((button, index) => {
+    const src = map.gallery[index] || defaults.gallery[index];
+    button.style.setProperty('--img', "url('" + src + "')");
+    button.dataset.full = src;
+  });
+})();
+
+/* ---------- live photo reel from GitHub repo ---------- */
+(function () {
+  const reel = document.getElementById('livePhotosTrack');
+  if (!reel) return;
+
+  const repoOwner = 'kshitijsharma104-eng';
+  const repoName = 'omellyzcutz';
+  const folder = 'photos';
+  const imageExt = /\.(png|jpe?g|webp|gif|avif|bmp)/i;
+
+  const buildSlide = (url, name) => {
+    const slide = document.createElement('div');
+    slide.className = 'live-slide';
+    slide.style.backgroundImage = "url('" + url + "')";
+    slide.title = name;
+    slide.setAttribute('aria-label', name);
+    return slide;
+  };
+
+  const renderFeed = (items) => {
+    if (!items.length) {
+      reel.innerHTML = '<div class="live-slide" style="background:linear-gradient(135deg,#1d2a25,#0f1714);display:grid;place-items:center;color:#e9e8e2;">No new photos yet</div>';
+      return;
+    }
+
+    const trackItems = [...items, ...items];
+    reel.innerHTML = '';
+    trackItems.forEach(item => reel.appendChild(buildSlide(item.url, item.name)));
+  };
+
+  const loadPhotos = async () => {
+    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folder}`;
+    try {
+      const response = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } });
+      if (!response.ok) throw new Error('GitHub fetch failed');
+      const files = await response.json();
+      const images = Array.isArray(files)
+        ? files.filter(file => file.type === 'file' && imageExt.test(file.name))
+        : [];
+      const items = images.map(file => ({
+        name: file.name,
+        url: file.download_url || `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${folder}/${encodeURIComponent(file.name)}`
+      }));
+      renderFeed(items);
+    } catch (error) {
+      reel.innerHTML = '';
+    }
+  };
+
+  loadPhotos();
+  setInterval(loadPhotos, 15000);
 })();
 
 /* ---------- gallery lightbox ---------- */
