@@ -186,17 +186,18 @@ section{padding:4.5rem 0}
   color:var(--porcelain);font-size:2rem;cursor:pointer;line-height:1;padding:.5rem}
 
 /* ================= reviews rail ================= */
-.rail{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;
-  padding-bottom:1rem;margin:0 -1.25rem;padding-inline:1.25rem;
-  scrollbar-width:none}
-.rail::-webkit-scrollbar{display:none}
-.card{flex:0 0 min(360px,82%);scroll-snap-align:start;
+.review-strip{overflow:hidden;margin:0 -1.25rem}
+.rail{display:flex;gap:1rem;width:max-content;padding:0 1.25rem 1rem;animation:review-marquee 38s linear infinite}
+.rail:hover{animation-play-state:paused}
+@keyframes review-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.card{flex:0 0 min(360px,82vw);
   background:linear-gradient(180deg,rgba(22,34,29,.7),rgba(18,24,21,.92));border:1px solid rgba(233,232,226,.16);
   border-radius:16px;padding:1.6rem;box-shadow:0 18px 45px rgba(0,0,0,.18)}
 .card .s{color:var(--brass);letter-spacing:.1em;font-size:.9rem}
 .card p{margin:.8rem 0 1.1rem;color:rgba(233,232,226,.9)}
 .card .who{font-size:.88rem;color:rgba(233,232,226,.55)}
 .rail-hint{margin:.6rem 0 0;font-size:.85rem;color:rgba(233,232,226,.45)}
+@media(prefers-reduced-motion:reduce){.rail{animation:none}}
 
 /* ================= about ================= */
 .about-grid{display:grid;gap:2.5rem}
@@ -405,7 +406,8 @@ footer a{color:var(--porcelain)}
     <p class="sec-sub">4.9 out of 5, across 36 reviews on Google.</p>
     <!-- EDIT REVIEWS — these are summaries. Paste the real wording from his
          Google listing, and use the reviewers' real first names. -->
-    <div class="rail">
+    <div class="review-strip">
+      <div class="rail" id="reviewRail">
       <div class="card">
         <div class="s" aria-hidden="true">★★★★★</div>
         <p>"His customer service and work rate is unmatched!"</p>
@@ -426,8 +428,9 @@ footer a{color:var(--porcelain)}
         <p>"Great service, consistent work, and a clean shop. Omar knows what he's doing."</p>
         <div class="who">Google review</div>
       </div>
+      </div>
     </div>
-    <p class="rail-hint">Swipe for more</p>
+    <p class="rail-hint">Reviews are moving — hover to pause.</p>
   </div>
 </section>
 
@@ -706,6 +709,17 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
   document.getElementById('lbClose').addEventListener('click', close);
   box.addEventListener('click', e => { if (e.target === box) close(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+
+/* ---------- continuously moving review rail ---------- */
+(function () {
+  const rail = document.getElementById('reviewRail');
+  if (!rail) return;
+  [...rail.children].forEach(card => {
+    const copy = card.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    rail.appendChild(copy);
+  });
 })();
 
 /* ---------- booking form: saves the request and waits for acceptance ---------- */
