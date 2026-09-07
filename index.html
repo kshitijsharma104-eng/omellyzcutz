@@ -163,6 +163,10 @@ section{padding:4.5rem 0}
 .live-track:hover{animation-play-state:paused}
 .live-slide{flex:0 0 220px;aspect-ratio:4/5;border-radius:14px;background-size:cover;background-position:center;box-shadow:0 20px 40px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08)}
 @keyframes photo-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.upload-box{display:flex;flex-wrap:wrap;align-items:center;gap:.9rem;margin-top:1rem;padding:1rem 1.1rem;border-radius:14px;border:1px solid rgba(233,232,226,.12);background:rgba(255,255,255,.02)}
+.upload-box label{margin:0}
+.upload-box input[type="file"]{display:none}
+.upload-hint{font-size:.82rem;color:rgba(233,232,226,.7)}
 .shots{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
 @media(min-width:760px){.shots{grid-template-columns:repeat(3,1fr);gap:.9rem}}
 .shot{margin:0;padding:0;border:0;aspect-ratio:1/1;border-radius:2px;cursor:zoom-in;
@@ -337,10 +341,15 @@ footer a{color:var(--porcelain)}
 <!-- ===================== GALLERY ===================== -->
 <section id="live-photos" class="live-photos dark">
   <div class="wrap">
-    <h2 class="sec-head">Fresh cuts</h2>
-    <p class="sec-sub">Newest work from the shop. The reel updates automatically whenever new images are added to the repo.</p>
+    <h2 class="sec-head">Recent work</h2>
+    <p class="sec-sub">Newest work from the shop. New uploads appear in the loop immediately.</p>
     <div class="live-strip" aria-live="polite">
       <div class="live-track" id="livePhotosTrack"></div>
+    </div>
+    <div class="upload-box">
+      <label for="imageUpload" class="btn btn-line">Upload new image</label>
+      <input id="imageUpload" type="file" accept="image/*">
+      <span class="upload-hint">Uploaded images show up in the reel instantly.</span>
     </div>
   </div>
 </section>
@@ -599,7 +608,18 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
 /* ---------- live photo reel from GitHub repo ---------- */
 (function () {
   const reel = document.getElementById('livePhotosTrack');
+  const uploadInput = document.getElementById('imageUpload');
   if (!reel) return;
+
+  const storageKey = 'omellyzcutz-uploaded-images';
+  let repoImages = [];
+  let uploadedImages = [];
+
+  try {
+    uploadedImages = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  } catch (error) {
+    uploadedImages = [];
+  }
 
   const repoOwner = 'kshitijsharma104-eng';
   const repoName = 'omellyzcutz';
@@ -626,22 +646,50 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
     trackItems.forEach(item => reel.appendChild(buildSlide(item.url, item.name)));
   };
 
+  const syncReel = () => {
+    renderFeed([...uploadedImages, ...repoImages]);
+  };
+
+  const saveUploadedImages = () => {
+    localStorage.setItem(storageKey, JSON.stringify(uploadedImages));
+    syncReel();
+  };
+
+  uploadInput && uploadInput.addEventListener('change', async (event) => {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    const dataUrl = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    uploadedImages.push({ name: file.name, url: dataUrl });
+    saveUploadedImages();
+    event.target.value = '';
+  });
+
   const loadPhotos = async () => {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folder}`;
     try {
       const response = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } });
       if (!response.ok) throw new Error('GitHub fetch failed');
       const files = await response.json();
-      const images = Array.isArray(files)
+      repoImages = Array.isArray(files)
         ? files.filter(file => file.type === 'file' && imageExt.test(file.name))
         : [];
-      const items = images.map(file => ({
+      const items = repoImages.map(file => ({
         name: file.name,
         url: file.download_url || `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${folder}/${encodeURIComponent(file.name)}`
       }));
-      renderFeed(items);
+      repoImages = items;
+      syncReel();
     } catch (error) {
+      repoImages = [];
       reel.innerHTML = '';
+      syncReel();
     }
   };
 
