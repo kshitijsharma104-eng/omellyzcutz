@@ -377,17 +377,6 @@ footer a{color:var(--porcelain)}
   </div>
 </section>
 
-<!-- ===================== HAIR CUTS ===================== -->
-<section id="services" class="live-photos dark">
-  <div class="wrap">
-    <h2 class="sec-head">Haircuts Omar does best</h2>
-    <p class="sec-sub">Clean fades, beard work and full refreshes, all moving through one live reel.</p>
-    <div class="live-strip" aria-live="polite">
-      <div class="live-track" id="haircutsTrack"></div>
-    </div>
-  </div>
-</section>
-
 <!-- ===================== PRICES ===================== -->
 <section id="prices">
   <div class="wrap">
@@ -610,7 +599,7 @@ const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','S
 
 /* ---------- live photo reel from GitHub repo ---------- */
 (function () {
-  const reels = ['livePhotosTrack', 'haircutsTrack']
+  const reels = ['livePhotosTrack']
     .map(id => document.getElementById(id))
     .filter(Boolean);
   const uploadInput = document.getElementById('imageUpload');
